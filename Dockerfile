@@ -22,3 +22,8 @@ ADD assets/config/rsyslog/rsyslog-global.conf /etc/rsyslog.conf
 ADD assets/config/rsyslog/rsyslog.conf /etc/rsyslog.d/
 ADD assets/config/rsyslog/supervisor.conf /etc/rsyslog.d/
 
+# Add init script
+ADD assets/init /app/init
+RUN chmod 700 /app/init
+
+VOLUME ["/data"]
