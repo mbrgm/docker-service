@@ -1,4 +1,4 @@
-# Base image
+# Service image
 #
 # VERSION 0.1.0
 
