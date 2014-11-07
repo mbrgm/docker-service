@@ -20,10 +20,11 @@ ADD assets/config/supervisor/rsyslog.conf /etc/supervisor/conf.d/
 # Add rsyslog config
 ADD assets/config/rsyslog/rsyslog-global.conf /etc/rsyslog.conf
 ADD assets/config/rsyslog/rsyslog.conf /etc/rsyslog.d/
-ADD assets/config/rsyslog/supervisor.conf /etc/rsyslog.d/
 
-# Add init script
-ADD assets/init /app/init
-RUN chmod 700 /app/init
+# Add init scripts
+ADD assets/init.d/* /app/init.d/
+RUN chmod 700 /app/init.d/*
 
 VOLUME ["/data"]
+
+ENTRYPOINT ["supervisord"]
