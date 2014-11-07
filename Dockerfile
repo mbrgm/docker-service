@@ -12,14 +12,13 @@ RUN apt-get update \
     && apt-get install -y rsyslog supervisor \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Fix rsyslog xconsole bug. This will comment out the lines following the
-# xconsole explanation until the line containing |/dev/xconsole
-RUN awk '/^# +\$ xconsole/,/\|\/dev\/xconsole/ { if($1 !~ /^#/) $0="#"$0}{print}' \
-        /etc/rsyslog.conf > /etc/rsyslog.conf.tmp \
-    && mv /etc/rsyslog.conf.tmp /etc/rsyslog.conf \
-    # Disable kernel logging
-    && sed -i 's/$ModLoad imklog/#$ModLoad imklog/' /etc/rsyslog.conf
-
-# Add rsyslog supervisor config file
+# Add supervisor config
+ADD assets/config/supervisor/supervisord-global.conf \
+    /etc/supervisor/supervisord.conf
 ADD assets/config/supervisor/rsyslog.conf /etc/supervisor/conf.d/
+
+# Add rsyslog config
+ADD assets/config/rsyslog/rsyslog-global.conf /etc/rsyslog.conf
+ADD assets/config/rsyslog/rsyslog.conf /etc/rsyslog.d/
+ADD assets/config/rsyslog/supervisor.conf /etc/rsyslog.d/
+
