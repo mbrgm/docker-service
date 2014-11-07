@@ -2,11 +2,6 @@
 
 set -e
 
-# Setup log directory
-mkdir -p /data/log \
-&& chown -R rsyslog:rsyslog /data/log \
-&& chmod -R 700 /data/log 
-
 # Start supervisord
 echo "Starting supervisord..."
 exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf > /dev/null
