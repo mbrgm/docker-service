@@ -1,3 +1,7 @@
+# Base image
+#
+# VERSION 0.1.0
+
 FROM debian:wheezy
 MAINTAINER Marius Bergmann <marius@yeai.de>
 
