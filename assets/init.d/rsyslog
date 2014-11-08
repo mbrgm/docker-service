@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+# Setup log directory
+mkdir -p /data/log
+chmod -R 700 /data/log 
+
+# Start rsyslogd
+exec rsyslogd -n
