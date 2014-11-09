@@ -3,14 +3,27 @@
 # We use this to boot up cause runit will not handle TERM and will not exit
 # when done
 
+set -e
+
+# Executes the shutdown tasks
 shutdown_svdir() {
-    echo "Shutting down..." \
-    && /etc/runit/3 \
-    && kill -SIGHUP $1 \
-    && wait $1
+    echo "Shutting down..."
+
+    # Run 3rd runit stage (shutdown)
+    /etc/runit/3
+
+    # Shutdown runsvdir and wait for termination
+    kill -SIGHUP $1
+    wait $1
 }
 
+# Execute 1st runit stage (startup)
 /etc/runit/1
+
+# Enable all configured services
+ln -s /etc/sv/* /etc/service/
+
+# Execute 2nd runit stage (services) --> starts runsvdir
 /etc/runit/2&
 svdir_pid=$!
 
