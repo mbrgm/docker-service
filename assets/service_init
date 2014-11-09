@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# We use this to boot up cause runit will not handle TERM and will not exit
+# when done
+
+shutdown_svdir() {
+    echo "Shutting down..." \
+    && /etc/runit/3 \
+    && kill -SIGHUP $1 \
+    && wait $1
+}
+
+/etc/runit/1
+/etc/runit/2&
+svdir_pid=$!
+
+echo "Started runsvdir, PID is $svdir_pid"
+
+trap "shutdown_svdir $svdir_pid" SIGINT SIGTERM SIGHUP
+
+wait $svdir_pid
